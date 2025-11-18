@@ -13,6 +13,7 @@ const UseDeferredValue = lazy(() => import('./components/UseDeferredValue'));
 const UseId = lazy(() => import('./components/UseId'));
 const SuspenseExample = lazy(() => import('./components/SuspenseExample'));
 const CodeSplitting = lazy(() => import('./components/CodeSplitting'));
+const EnterpriseExamples = lazy(() => import('./components/EnterpriseExamples'));
 
 // 示例列表
 const examples = [
@@ -21,7 +22,8 @@ const examples = [
   { id: 'use-deferred-value', name: 'useDeferredValue', component: UseDeferredValue },
   { id: 'use-id', name: 'useId', component: UseId },
   { id: 'suspense', name: 'Suspense 数据获取', component: SuspenseExample },
-  { id: 'code-splitting', name: '代码分割示例', component: CodeSplitting },
+  { id: 'code-splitting', name: '代码分割', component: CodeSplitting },
+  { id: 'enterprise', name: '企业级特性', component: EnterpriseExamples },
 ];
 
 function App() {

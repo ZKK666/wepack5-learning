@@ -1,8 +1,14 @@
 /**
  * Webpack 开发环境配置
  */
+const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
+const { setupMockRoutes } = require('./mock');
+
+// 自定义插件
+const BuildInfoPlugin = require('./plugins/BuildInfoPlugin');
+const FileListPlugin = require('./plugins/FileListPlugin');
 
 module.exports = merge(common, {
   /**
@@ -26,6 +32,15 @@ module.exports = merge(common, {
    * - nosources-source-map: 显示行号但不显示源码
    */
   devtool: 'eval-source-map',
+
+  /**
+   * 【面试重点】resolveLoader - 配置 Loader 解析路径
+   *
+   * 可以让 Webpack 从指定目录查找 Loader
+   */
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, 'loaders')],
+  },
 
   /**
    * 【面试重点】DevServer 配置
@@ -54,15 +69,21 @@ module.exports = merge(common, {
     },
     // 路由 history 模式支持
     historyApiFallback: true,
-    // 代理配置（解决跨域）
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '',
-        },
-      },
+
+    /**
+     * 【面试重点】setupMiddlewares - Webpack 5 新 API
+     *
+     * 替代了 before/after，用于设置自定义中间件
+     * 常用于：Mock API、日志记录、认证检查等
+     */
+    setupMiddlewares: (middlewares, devServer) => {
+      // 解析 JSON 请求体
+      devServer.app.use(require('express').json());
+
+      // 设置 Mock API 路由
+      setupMockRoutes(devServer.app);
+
+      return middlewares;
     },
   },
 
@@ -86,8 +107,32 @@ module.exports = merge(common, {
           },
         ],
       },
+      /**
+       * 【面试重点】使用自定义 Loader
+       */
+      {
+        test: /\.md$/,
+        use: [
+          {
+            loader: 'markdown-loader',
+          },
+        ],
+      },
     ],
   },
+
+  plugins: [
+    // 使用自定义插件
+    new BuildInfoPlugin({
+      filename: 'build-info.json',
+      extra: {
+        environment: 'development',
+      },
+    }),
+    new FileListPlugin({
+      filename: 'assets-manifest.md',
+    }),
+  ],
 
   optimization: {
     // 开发环境不需要压缩
