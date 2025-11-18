@@ -4,6 +4,7 @@
  * 面试高频知识点都在注释中标注
  */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -133,6 +134,19 @@ module.exports = {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
       },
+    }),
+
+    /**
+     * 【面试重点】DefinePlugin - 环境变量注入
+     *
+     * 在编译时将代码中的变量替换为指定值
+     * 常用于区分开发/生产环境，注入版本号等
+     *
+     * 注意：字符串值需要 JSON.stringify
+     */
+    new webpack.DefinePlugin({
+      'process.env.APP_VERSION': JSON.stringify('1.0.0'),
+      __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
 
