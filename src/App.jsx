@@ -14,6 +14,7 @@ const UseId = lazy(() => import('./components/UseId'));
 const SuspenseExample = lazy(() => import('./components/SuspenseExample'));
 const CodeSplitting = lazy(() => import('./components/CodeSplitting'));
 const EnterpriseExamples = lazy(() => import('./components/EnterpriseExamples'));
+const RealWorldDemo = lazy(() => import('./components/RealWorldDemo'));
 
 // 示例列表
 const examples = [
@@ -21,9 +22,10 @@ const examples = [
   { id: 'use-transition', name: 'useTransition', component: UseTransition },
   { id: 'use-deferred-value', name: 'useDeferredValue', component: UseDeferredValue },
   { id: 'use-id', name: 'useId', component: UseId },
-  { id: 'suspense', name: 'Suspense 数据获取', component: SuspenseExample },
+  { id: 'suspense', name: 'Suspense', component: SuspenseExample },
   { id: 'code-splitting', name: '代码分割', component: CodeSplitting },
-  { id: 'enterprise', name: '企业级特性', component: EnterpriseExamples },
+  { id: 'enterprise', name: 'Webpack特性', component: EnterpriseExamples },
+  { id: 'real-world', name: '实战功能', component: RealWorldDemo },
 ];
 
 function App() {

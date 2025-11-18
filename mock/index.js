@@ -27,10 +27,18 @@ const mockData = {
 
   // 产品列表
   products: [
-    { id: 1, name: 'Webpack 高级教程', price: 99, stock: 100 },
-    { id: 2, name: 'React 实战指南', price: 129, stock: 50 },
-    { id: 3, name: 'Node.js 服务端开发', price: 89, stock: 200 },
-    { id: 4, name: 'TypeScript 入门到精通', price: 79, stock: 150 },
+    { id: 1, name: 'Webpack 高级教程', price: 99, stock: 100, category: '前端' },
+    { id: 2, name: 'React 实战指南', price: 129, stock: 50, category: '前端' },
+    { id: 3, name: 'Node.js 服务端开发', price: 89, stock: 200, category: '后端' },
+    { id: 4, name: 'TypeScript 入门到精通', price: 79, stock: 150, category: '前端' },
+    { id: 5, name: 'Vue3 组合式 API', price: 109, stock: 80, category: '前端' },
+    { id: 6, name: 'Docker 容器化部署', price: 99, stock: 120, category: '运维' },
+    { id: 7, name: 'MySQL 性能优化', price: 139, stock: 60, category: '数据库' },
+    { id: 8, name: 'Redis 实战', price: 89, stock: 90, category: '数据库' },
+    { id: 9, name: 'Nginx 配置详解', price: 69, stock: 200, category: '运维' },
+    { id: 10, name: 'Git 工作流', price: 49, stock: 300, category: '工具' },
+    { id: 11, name: 'Jest 单元测试', price: 79, stock: 110, category: '测试' },
+    { id: 12, name: 'Cypress E2E 测试', price: 99, stock: 70, category: '测试' },
   ],
 
   // 订单列表
@@ -121,6 +129,92 @@ function setupMockRoutes(app) {
     }
   });
 
+  // POST /api/register - 注册
+  app.post('/api/register', async (req, res) => {
+    await delay(600);
+    const { username, email, password } = req.body;
+
+    // 检查用户名是否已存在
+    const exists = mockData.users.find(u => u.name === username || u.email === email);
+    if (exists) {
+      res.status(400).json({
+        code: 400,
+        message: '用户名或邮箱已存在',
+      });
+      return;
+    }
+
+    const newUser = {
+      id: mockData.users.length + 1,
+      name: username,
+      email,
+      role: 'user',
+    };
+    mockData.users.push(newUser);
+
+    res.json({
+      code: 0,
+      message: 'success',
+      data: newUser,
+    });
+  });
+
+  // POST /api/orders - 创建订单
+  app.post('/api/orders', async (req, res) => {
+    await delay(800);
+    const { items, totalAmount } = req.body;
+
+    const newOrder = {
+      id: 1000 + mockData.orders.length + 1,
+      items,
+      totalAmount,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+    mockData.orders.push(newOrder);
+
+    res.json({
+      code: 0,
+      message: 'success',
+      data: newOrder,
+    });
+  });
+
+  // GET /api/products/:id - 获取单个产品
+  app.get('/api/products/:id', async (req, res) => {
+    await delay(300);
+    const product = mockData.products.find(p => p.id === parseInt(req.params.id));
+    if (product) {
+      res.json({ code: 0, message: 'success', data: product });
+    } else {
+      res.status(404).json({ code: 404, message: 'Product not found' });
+    }
+  });
+
+  // PUT /api/products/:id - 更新产品
+  app.put('/api/products/:id', async (req, res) => {
+    await delay(500);
+    const index = mockData.products.findIndex(p => p.id === parseInt(req.params.id));
+    if (index !== -1) {
+      mockData.products[index] = { ...mockData.products[index], ...req.body };
+      res.json({ code: 0, message: 'success', data: mockData.products[index] });
+    } else {
+      res.status(404).json({ code: 404, message: 'Product not found' });
+    }
+  });
+
+  // DELETE /api/products/:id - 删除产品
+  app.delete('/api/products/:id', async (req, res) => {
+    await delay(400);
+    const index = mockData.products.findIndex(p => p.id === parseInt(req.params.id));
+    if (index !== -1) {
+      mockData.products.splice(index, 1);
+      res.json({ code: 0, message: 'success' });
+    } else {
+      res.status(404).json({ code: 404, message: 'Product not found' });
+    }
+  });
+
   // 模拟上传接口
   app.post('/api/upload', async (req, res) => {
     await delay(1000);
@@ -129,6 +223,21 @@ function setupMockRoutes(app) {
       message: 'success',
       data: {
         url: 'https://example.com/uploads/file-' + Date.now() + '.png',
+      },
+    });
+  });
+
+  // GET /api/statistics - 获取统计数据
+  app.get('/api/statistics', async (req, res) => {
+    await delay(500);
+    res.json({
+      code: 0,
+      message: 'success',
+      data: {
+        totalUsers: mockData.users.length,
+        totalProducts: mockData.products.length,
+        totalOrders: mockData.orders.length,
+        revenue: mockData.orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0),
       },
     });
   });
