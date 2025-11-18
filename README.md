@@ -7,10 +7,21 @@
 - **Webpack 5 完整配置**：包含开发/生产环境配置、代码分割、缓存优化等
 - **React 18 新特性示例**：自动批处理、useTransition、useDeferredValue、useId、Suspense 改进
 - **面试知识点详解**：代码中包含详细的面试要点注释
+- **实战功能模块**：登录注册、数据表格、购物车等真实项目功能
+
+## 环境要求
+
+- **Node.js**: >= 16.0.0
+- **npm**: >= 7.0.0
+
+推荐使用 Node.js 18.x 或 20.x LTS 版本。
 
 ## 快速开始
 
 ```bash
+# 检查 Node 版本
+node -v
+
 # 安装依赖
 npm install
 

@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Webpack 5 + React 18 学习项目 - 面试高频知识点",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
