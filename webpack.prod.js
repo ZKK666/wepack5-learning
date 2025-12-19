@@ -104,7 +104,7 @@ module.exports = (env) => {
        * 移除未使用的代码，减小打包体积
        * 前提条件：
        * 1. 使用 ES6 模块语法（import/export）
-       * 2. package.json 中设置 "sideEffects": false
+       * 2. package.json 中设置 "sideEffects": false 缺少这个表示让树摇效果打折
        * 3. mode: 'production'
        *
        * usedExports: 标记未使用的导出

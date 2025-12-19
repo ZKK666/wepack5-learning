@@ -1,0 +1,65 @@
+{
+  "name": "@yourname/console-cleaner-native",
+  "version": "1.0.0",
+  "description": "High-performance console cleaning using native C++ addon - 3-10x faster than pure JavaScript",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "install": "npm run build:conditional",
+    "build": "node-gyp rebuild",
+    "build:conditional": "node scripts/build-conditional.js",
+    "build:debug": "node-gyp rebuild --debug",
+    "clean": "node-gyp clean",
+    "test": "node test-performance.js",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "console",
+    "remove",
+    "native",
+    "c++",
+    "performance",
+    "optimization",
+    "n-api",
+    "addon"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourname/console-cleaner-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourname/console-cleaner-native/issues"
+  },
+  "homepage": "https://github.com/yourname/console-cleaner-native#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.0.0"
+  },
+  "devDependencies": {
+    "node-gyp": "^10.0.0"
+  },
+  "optionalDependencies": {
+    "node-gyp": "^10.0.0"
+  },
+  "gypfile": true,
+  "binary": {
+    "module_name": "console_cleaner",
+    "module_path": "./build/Release/",
+    "host": "https://github.com/yourname/console-cleaner-native/releases/download/"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "binding.gyp",
+    "console_cleaner.cc",
+    "scripts/",
+    "README.md",
+    "LICENSE"
+  ]
+}

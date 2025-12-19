@@ -1,0 +1,21 @@
+# Build artifacts (users will compile on their own)
+build/
+
+# Development files
+test-performance.js
+node_modules/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore

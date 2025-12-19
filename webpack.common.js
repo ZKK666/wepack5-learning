@@ -210,7 +210,8 @@ module.exports = {
    * 持久化缓存大幅提升二次构建速度
    */
   cache: {
-    type: 'filesystem', // 使用文件系统缓存
+    type: 'filesystem', // 使用文件系统缓存 不建议选择memory缓存
+    cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
     buildDependencies: {
       config: [__filename], // 配置文件变化时使缓存失效
     },
